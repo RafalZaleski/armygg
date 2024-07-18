@@ -71,7 +71,7 @@ class PokedexService
 
     public function checkIsFavorite($name): bool
     {
-        $isFavorite = request()->cookie('isFavorite');
+        $isFavorite = request()->cookie('isFavorite') ?? '';
         $isFavorite = explode(',', $isFavorite);
         if (array_search($name, $isFavorite)) {
             return true;
@@ -82,7 +82,7 @@ class PokedexService
 
     public function showFavorites(): array
     {
-        $isFavorite = request()->cookie('isFavorite');
+        $isFavorite = request()->cookie('isFavorite') ?? '';
         $isFavorite = explode(',', $isFavorite);
 
         if (!is_array($isFavorite)) {
