@@ -6,7 +6,8 @@
         <title>PokeDex</title>
     </head>
     <body>
-        <a href="/"><div>Home page</div></a> <br><br>
+        <a href="/"><div>Home page</div></a> 
+        <a href="/favorites"><div>Ulubione</div></a> <br><br>
         @yield('content')
     </body>
 </html>

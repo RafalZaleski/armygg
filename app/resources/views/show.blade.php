@@ -9,4 +9,12 @@
     @endforeach
 
     <img src="{{ $pokemon->sprites->front_default }}"> <br>
+
+    <a href="/toggle-favorite/{{ $pokemon->name }}"<button>
+        @if($isFavorite)
+            Usuń z ulubionych
+        @else
+            Dodaj do ulubionych
+        @endif
+    </button>
 @endsection

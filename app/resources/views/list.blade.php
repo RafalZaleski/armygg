@@ -28,6 +28,6 @@
 
         <br><br>
     @foreach ($pokemons as $pokemon)
-        <a href="/{{ $pokemon->name }}">{{ $pokemon->name }}</a><br>
+        <a href="/pokemon/{{ $pokemon->name }}">{{ $pokemon->name }}</a><br>
     @endforeach
 @endsection

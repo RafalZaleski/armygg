@@ -54,4 +54,42 @@ class PokedexService
     {
         return $this->client->getPokemon($name);
     }
+
+    public function toggleFavorite($name): string
+    {
+        $isFavorite = request()->cookie('isFavorite') ?? '';
+        
+        $isFavorite = explode(',', $isFavorite);
+        if ($key = array_search($name, $isFavorite)) {
+            unset($isFavorite[$key]);
+        } else {
+            $isFavorite[] = $name;
+        }
+
+        return implode(',', $isFavorite);
+    }
+
+    public function checkIsFavorite($name): bool
+    {
+        $isFavorite = request()->cookie('isFavorite');
+        $isFavorite = explode(',', $isFavorite);
+        if (array_search($name, $isFavorite)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function showFavorites(): array
+    {
+        $isFavorite = request()->cookie('isFavorite');
+        $isFavorite = explode(',', $isFavorite);
+
+        if (!is_array($isFavorite)) {
+            $isFavorite = [];
+        }
+        
+        return $isFavorite;
+    }
+
 }
