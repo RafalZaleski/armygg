@@ -18,7 +18,7 @@ class PokedexController extends Controller
     {
         $data = $this->pokedexService->index();
         
-        return view('list', ['pokemons' => $data]);
+        return view('list', ['pokemons' => $data['pokemons'], 'meta' => $data['meta']]);
     }
 
     public function show(string $name): View

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Client
 {
-    const LIST_ALL_POKEMON = 'pokemon?limit=100';
+    const LIST_ALL_POKEMON = 'pokemon?limit=2000';
     const GET_POKEMON = 'pokemon/';
 
     public function __construct(readonly private string $baseUrl = 'https://pokeapi.co/api/v2/')
@@ -38,10 +38,10 @@ class Client
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 
         $data = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($http_code != 200) {
+        if ($httpCode !== 200) {
             throw new \Exception($url . $data, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

@@ -9,13 +9,45 @@ use stdClass;
 
 class PokedexService
 {
+    const PER_PAGE = 100;
+
     public function __construct(readonly private Client $client)
     {
     }
 
     public function index(): array
     {
-        return $this->client->getListAllPokemon();
+        $meta['currentPage'] = max((int)request('page'), 1);
+        
+        $meta['search'] = request('search');
+
+        $data = $this->client->getListAllPokemon();
+
+        if ($meta['search']) {
+            $meta['search'] = mb_strtolower($meta['search']);
+            $newData = [];
+
+            foreach ($data as $pokemon) {
+                if (str_contains($pokemon->name, $meta['search'])) {
+                    $newData[] = $pokemon;
+                }
+            }
+
+            $data = $newData;
+            unset($newData);
+        }
+
+        $meta['length'] = count($data);
+        $meta['lastPage'] = (int)ceil($meta['length'] / self::PER_PAGE);
+
+        if ($meta['currentPage'] > $meta['lastPage']) {
+            $meta['currentPage'] = $meta['lastPage'];
+        }
+
+        return [
+            'pokemons' => array_slice($data, ($meta['currentPage'] - 1) * self::PER_PAGE, self::PER_PAGE),
+            'meta' => $meta,
+        ];
     }
 
     public function show(string $name): stdClass
