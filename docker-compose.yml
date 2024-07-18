@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  nginx:
+    container_name: arrmygg_nginx
+    build: docker/nginx
+    command: nginx -g "daemon off;"
+    links:
+      - php
+      - db
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/var/www/html/arrmygg
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    container_name: arrmygg_php
+    volumes:
+      - ./app:/var/www/html/arrmygg
+  db:
+    container_name: arrmygg_db
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: PtCXYKq7MZUYt8rE
+      MYSQL_DATABASE: arrmygg
+      MYSQL_USER: 0lsSAwO0eFEKbTdu
+      MYSQL_PASSWORD: FfLScvVk1EWYwF1V
+    volumes:
+      - data:/var/lib/mariadb
+    ports:
+      - "3306:3306"
+volumes:
+  data:
